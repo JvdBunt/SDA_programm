@@ -26,8 +26,9 @@ sub_CornerCounter2;
 %Calculation of suspension values
 cal_Susp;
 
+
 %Plot results
-%sub_Plotting;
+sub_Plotting;
 
 % Clear unused signals 
 sub_ClearSignals;
