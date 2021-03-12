@@ -40,6 +40,10 @@ endif
     p2(2,j)=i;
 endif
 
+  if (j==1)
+  rSlip(i)=((V_Rear(i)-V_Front(i))/V_Rear(i))*100;
+  endif
+
 i=i+1;
   
   if (i>2 && i<=ref_length)
@@ -69,10 +73,5 @@ sxSusp(1,j+3+nCornerMax)=tan((sxSusp(1,j+3)-(sxSusp(2,j+3)*2.1))/1200)*100;
 j=j+1;
 endwhile
 
-
-
-
-%vSuspF=filter(lp_coeff,1,vSuspF);
-
-
-
+rSlip=rSlip';
+rSlip=medfilt1(rSlip,100);

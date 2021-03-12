@@ -11,14 +11,12 @@ p2=zeros(1,nCornerMax);
 vVehicle=zeros(1,ref_length)';
 aVehicle=zeros(1,ref_length)';
 
-sVehicle=[mean(vVehicle),min(vVehicle),max(vVehicle);
-
 vVehicle=V_Front;
+sVehicle=[mean(vVehicle(1:ref_length-1)),min(vVehicle),max(vVehicle)];
 
 lp_coeff=fir1(50,5/1000,'low'); %(length of the filter, drop freq, lowpassfilter)
 
 j=1;
-
 while (j<=nCornerMax)
 i=1;
 while (i<=ref_length)
@@ -39,6 +37,14 @@ while (i<=ref_length)
     p2(2,j)=i;
   endif
   
+    %Calculation for acceleration --> zCorner == 3
+  if (dCornerSt(i)==1 && nCorner(i)==j && zCorner(i)==2)
+    p1(3,j)=i;
+  
+  elseif(dCornerSt(i)==-3 && nCorner(i)==j && zCorner(i)==3)
+    p2(3,j)=i;
+  endif
+  
 i=i+1;
   
   if (i>2 && i<=ref_length)
@@ -47,10 +53,29 @@ i=i+1;
   
 endwhile
 
-sVehicle(1,j+3)=mean(vVehicle(p1(j):p2(j)));
+%sVehicle structure
+%(1:-) = [mean,min,max,mean turns] of vVehicle
+%(2:-) = [mean turns, min turns] of Decceleration
+%(3:-) = [mean turns, max turns] of Acceleration
+%(4:-) = [mean turns, max turns] of pBrakeF
+%(5:-) = [mean turns, max turns] of rSlip
 
-j=j+1;
-endwhile
+sVehicle(1,j+3)=mean(vVehicle(p1(j):p2(j)));
 
 aVehicle=filter(lp_coeff,1,aVehicle);
 aVehicle=medfilt1(aVehicle, 650);
+
+sVehicle(2,j)=mean(aVehicle(p1(2,j):p2(2,j)));
+sVehicle(2,j+nCornerMax)=min(aVehicle(p1(2,j):p2(2,j)));
+
+sVehicle(4,j)=mean(pBrakeF(p1(2,j):p2(2,j)));
+sVehicle(4,j+nCornerMax)=max(pBrakeF(p1(2,j):p2(2,j)));
+
+sVehicle(3,j)=mean(aVehicle(p1(3,j):p2(3,j)));
+sVehicle(3,j+nCornerMax)=max(aVehicle(p1(3,j):p2(3,j)));
+
+sVehicle(5,j)=mean(rSlip(p1(3,j):p2(3,j)));
+sVehicle(5,j+nCornerMax)=max(rSlip(p1(3,j):p2(3,j)));
+
+j=j+1;
+endwhile

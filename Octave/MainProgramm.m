@@ -26,6 +26,9 @@ sub_CornerCounter2;
 %Calculation of suspension values
 cal_Susp;
 
+%Calculation of vehicle speed and acceleration values
+cal_vVehicle;
+
 
 %Plot results
 sub_Plotting;

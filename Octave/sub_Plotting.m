@@ -93,3 +93,84 @@ text(0.6,0.6,num2str(sxSusp(1,2),"%5.1f"));
 text(0.6,0.3,num2str(sxSusp(2,2),"%5.1f"));
 text(0.8,0.6,num2str(sxSusp(1,1),"%5.1f"));
 text(0.8,0.3,num2str(sxSusp(2,1),"%5.1f"));
+
+%Plot3
+f3=figure(3);
+
+%Row1
+subplot(4,1,1)
+errorbar(sVehicle(1,4:(3+nCornerMax)),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) 40 180]);
+grid on;
+title('Midcorner speed');
+xlabel ("CornerNr [-]");
+
+%Row 2
+subplot(4,4,5)
+errorbar(sVehicle(2,1:nCornerMax),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) -50 0]);
+grid on;
+title('Decceleration during braking - Mean');
+xlabel ("CornerNr [-]");
+
+subplot(4,4,6)
+errorbar(sVehicle(2,nCornerMax+1:nCornerMax+nCornerMax),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) -70 0]);
+grid on;
+title('Decceleration during braking - Min');
+xlabel ("CornerNr [-]");
+
+subplot(4,4,7)
+errorbar(sVehicle(4,1:nCornerMax),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) 0 inf]);
+grid on;
+title('pBrakeF - Mean');
+xlabel ("CornerNr [-]");
+
+subplot(4,4,8)
+errorbar(sVehicle(4,nCornerMax+1:nCornerMax+nCornerMax),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) 0 inf]);
+grid on;
+title('pBrakeF - Max');
+xlabel ("CornerNr [-]");
+
+%Row 3
+subplot(4,4,9)
+errorbar(sVehicle(3,1:nCornerMax),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) 0 40]);
+grid on;
+title('Acceleration - Mean');
+xlabel ("CornerNr [-]");
+
+subplot(4,4,10)
+errorbar(sVehicle(5,nCornerMax+1:nCornerMax+nCornerMax),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) 0 60]);
+grid on;
+title('Acceleration - Max');
+xlabel ("CornerNr [-]");
+
+subplot(4,4,11)
+errorbar(sVehicle(5,1:nCornerMax),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) 0 inf]);
+grid on;
+title('rSlip - Mean');
+xlabel ("CornerNr [-]");
+
+subplot(4,4,12)
+errorbar(sVehicle(5,nCornerMax+1:nCornerMax+nCornerMax),2,'#~.r');
+axis([0.5 (nCornerMax+0.5) 0 inf]);
+grid on;
+title('rSlip - Max');
+xlabel ("CornerNr [-]");
+
+%Row 4
+subplot(4,1,4)
+text(0.2,0.6,'vVehicle');
+
+text(0.4,0.9,'Max');
+text(0.6,0.9,'Min');
+text(0.8,0.9,'Mean');
+
+text(0.4,0.6,num2str(sVehicle(1,3),"%5.1f"));
+text(0.6,0.6,num2str(sVehicle(1,2),"%5.1f"));
+text(0.8,0.6,num2str(sVehicle(1,1),"%5.1f"));
