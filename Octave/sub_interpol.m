@@ -1,14 +1,14 @@
 %This programm interpolates all channels towards 1000hz signals
-%This makes all signals the same length
+%This makes all signals the same length in order to compare/calculate with eachother
 
-%Select channel which is logged with 1000Hz
-ref_channel= xSuspF;
+Datafiles(1).lDatafiles=length(Datafiles);
+i=1;
 
-%Check the length of the reference channel
-ref_length= length(ref_channel);
+
+
 
 %This function is able to interpolate signals to 1000Hz logging frequency
-function [Signal] = IntpChannels (a,b,c,d)
+function [Signal] = IntpChannels (a,b,c,d,i)
   
   %Create reference Time
 t1000=(0:0.001:((b/1000)-0.001));
@@ -23,26 +23,28 @@ t10=(0:0.1:((b/1000)));
 
  switch Freq
 case 500
-  t=t500;
+  Datafiles(i).t=t500;
 case 200
-  t=t200;
+  Datafiles(i).t=t200;
 case 100
-  t=t100;
+  Datafiles(i).t=t100;
 case 50
-  t=t50;
+  Datafiles(i).t=t50;
 case 10
-  t=t10;
+  Datafiles(i).t=t10;
 otherwise
-  t=1;
+  Datafiles(i).t=1;
 endswitch
 
 %Interpolate signal to 1000Hz
- Signal=interp1(t,c,t1000)';
+ Signal=interp1(Datafiles(i).t,c,t1000)';
 
 endfunction 
 
 
+while (i<=(Datafiles(1).lDatafiles))
 
+disp('Another round ');
 
 %Switch condition to run the interpolation for multiple signals
 counter=1;
@@ -50,63 +52,66 @@ for (counter=1:10)
   
   switch counter
           case 1
-      SignalName = CAN_vGPS;
+      Datafiles(i).SignalName = Datafiles(i).CAN_vGPS;
           case 2
-      SignalName = Gear;
+      Datafiles(i).SignalName = Datafiles(i).Gear;
           case 3
-      SignalName = RPM;
+      Datafiles(i).SignalName = Datafiles(i).RPM;
           case 4
-      SignalName = T_Water;
+      Datafiles(i).SignalName = Datafiles(i).T_Water;
           case 5
-      SignalName = Throttle;
+      Datafiles(i).SignalName = Datafiles(i).Throttle;
           case 6
-      SignalName = V_Front;
+      Datafiles(i).SignalName = Datafiles(i).V_Front;
           case 7
-      SignalName = V_Rear;
+      Datafiles(i).SignalName = Datafiles(i).V_Rear;
           case 8
-      SignalName = pBrakeF;
+      Datafiles(i).SignalName = Datafiles(i).pBrakeF;
           case 9
-      SignalName = pBrakeR;
+      Datafiles(i).SignalName = Datafiles(i).pBrakeR;
       
   otherwise
-    return
+    %return
     
   endswitch
   
   
   
+%Select channel which is logged with 1000Hz
+Datafiles(i).ref_channel= Datafiles(i).xSuspF;
 
-
+%Check the length of the reference channel
+Datafiles(i).ref_length= length(Datafiles(i).ref_channel);
 
 %Check the length of channel to interpolate
-int_length= length(SignalName);
+Datafiles(i).int_length= length(Datafiles(i).SignalName);
 
 %Interpolate channels
-IntpChannels(ref_channel,ref_length,SignalName,int_length);
-t=(0:0.001:((ref_length/1000)-0.001))';
+IntpChannels(Datafiles(i).ref_channel,Datafiles(i).ref_length,Datafiles(i).SignalName,Datafiles(i).int_length,i);
+Datafiles(i).t=(0:0.001:((Datafiles(i).ref_length/1000)-0.001))';
 
 %Return value to signal
   switch counter
           case 1
-      CAN_vGPS = ans;
+      Datafiles(i).CAN_vGPS = ans;
           case 2
-      Gear = ans;
+      Datafiles(i).Gear = ans;
           case 3
-      RPM = ans;
+      Datafiles(i).RPM = ans;
           case 4
-      T_Water = ans;
+      Datafiles(i).T_Water = ans;
           case 5
-      Throttle = ans;
+      Datafiles(i).Throttle = ans;
           case 6
-      V_Front = ans;
+      Datafiles(i).V_Front = ans;
           case 7
-      V_Rear = ans;
+      Datafiles(i).V_Rear = ans;
           case 8
-      pBrakeF = ans;
+      Datafiles(i).pBrakeF = ans;
           case 9
-      pBrakeR = ans;
+      Datafiles(i).pBrakeR = ans;
   otherwise
-    return
+    %return
     
   endswitch
 
@@ -114,3 +119,10 @@ t=(0:0.001:((ref_length/1000)-0.001))';
 counter = counter +1;
 
 endfor
+
+i=i+1;
+endwhile
+
+clear('i');
+clear('ans');
+clear('counter');

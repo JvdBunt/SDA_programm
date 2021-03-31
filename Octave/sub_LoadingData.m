@@ -2,6 +2,12 @@
 
 % Save the folderpath of the main execution file
 pwd_Main = pwd;
+sDataLoad = 'Y';
+i=1;
+
+while (i<3)
+  
+if (sDataLoad == 'Y')
 
 % Select folderpath of data file
 pwd_data= (input('Copy past the Folderpath of the datafile: ', 's'));
@@ -37,72 +43,26 @@ while (check_FileName ~= 2)
   
 endwhile
 %Load datafile
-load (FileName);
+%% Create counter for DataFile index
+Datafiles(1,i)=load(FileName);
+
+%C Check if more data wants to be loaded
+sDataLoad=(input('Do you want to load more Data? Type: Yes/No ', 's'));
+sDataLoad=sDataLoad(1);
+
+
+endif
+
+
+
+i=i+1;
+endwhile
+
 
 cd (pwd_Main)
 
 %Define signals needed
 %Delete other channels
-clear('AF1');
-clear('APS_angle');
-clear('AccX_Corr');
-clear('AccY_Corr');
-clear('AccZ_Corr');
-clear('Acc_X2');
-clear('Acc_Y2');
-clear('Acc_Z2');
-clear('Altitude');
-clear('Angle');
-clear('Course');
-clear('CurrHigh');
-clear('CurrLED');
-clear('CurrOK');
-clear('CurrentOK');
-clear('Dist');
-clear('Distance32');
-clear('FilerON');
-clear('FilterON_OFF');
-clear('FilterSetting');
-clear('FilterType');
-clear('HHMM');
-clear('LampCurrent');
-clear('MMDD');
-clear('Mode_PWR');
-clear('Mode_SCS');
-clear('Mode_TCS');
-clear('OpticOK');
-clear('PowerOK');
-clear('SSHH');
-clear('SensorOK');
-clear('SerialNo');
-clear('SerialNr');
-clear('TBox_Corr');
-clear('T_Air');
-clear('TempOK');
-clear('TempSens');
-clear('Temperature');
-clear('TemperatureOK');
-clear('Timestamp');
-clear('ValidSat');
-clear('Vbatt_Corr');
-clear('Vel');
-clear('VelX');
-clear('VelY');
-clear('X2_0x0CF');
-clear('aLean');
-clear('pComp');
-clear('pRebound');
-clear('tLap');
-clear('tLapLast');
-clear('v');
-clear('vl');
-clear('vq');
-clear('xLaserL');
-clear('xLaserR');
-clear('aSteer');
-clear('Lat_dez');
-clear('Lon_dez');
-clear('LogLapTime');
 
 %Clear parameters used in this sub function
 clear('pwd_Main');
@@ -110,3 +70,5 @@ clear('pwd_data');
 clear('check_Folderpath');
 clear('FileName');
 clear('check_FileName');
+clear('sDataLoad');
+clear('i');

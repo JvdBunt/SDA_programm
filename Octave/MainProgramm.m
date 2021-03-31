@@ -20,21 +20,21 @@ sub_interpol;
 sub_CornerStatement;
 
 % Corner counter
-sub_CornerCounter;
-sub_CornerCounter2;
+%sub_CornerCounter;
+%sub_CornerCounter2;
 
 %Calculation of suspension values
-cal_Susp;
+%cal_Susp;
 
 %Calculation of vehicle speed and acceleration values
-cal_vVehicle;
+%cal_vVehicle;
 
 
 %Plot results
-sub_Plotting;
+%sub_Plotting;
 
 % Clear unused signals 
-sub_ClearSignals;
+%sub_ClearSignals;
 
 
 disp('Thanks for using this programm!');
